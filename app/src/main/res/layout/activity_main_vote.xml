@@ -26,7 +26,7 @@
         android:layout_height="100dp"/>
 
     <include android:id="@+id/colored_buttons"
-        layout="@layout/button_fragment"
+        layout="@layout/buttons_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"/>

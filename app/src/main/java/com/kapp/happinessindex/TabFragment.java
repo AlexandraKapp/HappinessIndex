@@ -4,14 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
-
-import org.w3c.dom.Text;
 
 
 /**
@@ -70,10 +69,21 @@ public class TabFragment extends Fragment {
         // Inflate the layout for this fragment
         View view;
         if (mTabType == TAB_BUTTONS_KEY) {
-            view = inflater.inflate(R.layout.tab_button_size_fragment, container, false);
-            TextView greenButtonStats = (TextView) view.findViewById(R.id.green_button_stats);
-            TextView orangeButtonStats = (TextView) view.findViewById(R.id.orange_button_stats);
-            TextView redButtonStats = (TextView) view.findViewById(R.id.red_button_stats);
+            view = inflater.inflate(R.layout.tab_colorfields_fragment, container, false);
+            TextView greenField = (TextView) view.findViewById(R.id.green_button_stats);
+            TextView orangeField = (TextView) view.findViewById(R.id.orange_button_stats);
+            TextView redField = (TextView) view.findViewById(R.id.red_button_stats);
+            TextView totalVotes = (TextView) view.findViewById(R.id.total_votes);
+
+           //TODO: exchange example test texts
+            totalVotes.setText("Total: 25 votes");
+            greenField.setText("60%");
+            orangeField.setText("25%");
+            redField.setText("15%");
+
+            setButtonSizeAccordingtoPercentage(greenField, 60);
+            setButtonSizeAccordingtoPercentage(orangeField, 25);
+            setButtonSizeAccordingtoPercentage(redField, 15);
 
             //TODO: set button size and percentage text on Buttons
 
@@ -86,6 +96,18 @@ public class TabFragment extends Fragment {
             throw new RuntimeException("Tab with key " + mTabType + " is not implemented.");
         }
         return view;
+    }
+
+    /*
+    resize the Textview according to the percentage so that green, orange and red fields give a graphical feedback about vote
+     */
+    private void setButtonSizeAccordingtoPercentage(TextView textViewToResize, int percentage) {
+        int hundredPercent = (int) (getResources().getDimension(R.dimen.button_size) * 3);
+        int newHeight = (int) ((double) hundredPercent *((double)percentage/100));
+
+        ViewGroup.LayoutParams params = textViewToResize.getLayoutParams();
+        params.height = newHeight;
+        textViewToResize.setLayoutParams(params);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

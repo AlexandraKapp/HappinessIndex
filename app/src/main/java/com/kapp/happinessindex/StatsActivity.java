@@ -28,6 +28,7 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
     @BindView(R.id.sliding_tabs)
     TabLayout mTabLayout;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

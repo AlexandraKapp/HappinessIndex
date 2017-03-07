@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_gravity="center">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/total_votes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        tools:text="Total: 25 votes"
+        android:layout_alignEnd="@+id/red_button_stats"
+        android:layout_marginTop="@dimen/small_margin" />
 
     <TextView
         android:id="@+id/green_button_stats"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
-        android:layout_margin="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_toLeftOf="@+id/orange_button_stats"
+        android:layout_toStartOf="@+id/orange_button_stats"
+        android:layout_centerVertical="true"
         android:background="@color/basic_green"
         android:gravity="center"
         tools:text="60%" />
@@ -18,9 +30,8 @@
         android:id="@+id/orange_button_stats"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
-        android:layout_margin="@dimen/small_margin"
-        android:layout_toEndOf="@+id/green_button_stats"
-        android:layout_toRightOf="@id/green_button_stats"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_centerInParent="true"
         android:background="@color/basic_orange"
         android:gravity="center"
         tools:text="30%" />
@@ -29,10 +40,12 @@
         android:id="@+id/red_button_stats"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
-        android:layout_margin="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
         android:layout_toEndOf="@id/orange_button_stats"
         android:layout_toRightOf="@id/orange_button_stats"
+        android:layout_centerVertical="true"
         android:background="@color/basic_red"
         android:gravity="center"
         tools:text="10%" />
+
 </RelativeLayout>

@@ -5,5 +5,8 @@
     <dimen name="button_size">100dp</dimen>
     <dimen name="small_margin">10dp</dimen>
     <dimen name="medium_margin">20dp</dimen>
-    <dimen name="small_elevation">5dp</dimen>
+    <dimen name="small_elevation">1dp</dimen>
+    <dimen name="no_elevation">0dp</dimen>
+    <dimen name="drop_down_height">50dp</dimen>
+    <dimen name="large_button_height">100dp</dimen>
 </resources>

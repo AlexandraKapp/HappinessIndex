@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,9 +69,9 @@ public class TabFragment extends Fragment {
         View view;
         if (mTabType == TAB_BUTTONS_KEY) {
             view = inflater.inflate(R.layout.tab_colorfields_fragment, container, false);
-            TextView greenField = (TextView) view.findViewById(R.id.green_button_stats);
-            TextView orangeField = (TextView) view.findViewById(R.id.orange_button_stats);
-            TextView redField = (TextView) view.findViewById(R.id.red_button_stats);
+            TextView greenField = (TextView) view.findViewById(R.id.green_button);
+            TextView orangeField = (TextView) view.findViewById(R.id.orange_button);
+            TextView redField = (TextView) view.findViewById(R.id.red_button);
             TextView totalVotes = (TextView) view.findViewById(R.id.total_votes);
 
            //TODO: exchange example test texts

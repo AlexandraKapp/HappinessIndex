@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
 
-    <include android:id="@+id/button_stats_display"
-        layout="@layout/button_fragment"/>
-</LinearLayout>
+    <TextView
+        android:id="@+id/green_button_stats"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_margin="@dimen/small_margin"
+        android:background="@color/basic_green"
+        android:gravity="center"
+        tools:text="60%" />
+
+    <TextView
+        android:id="@+id/orange_button_stats"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_margin="@dimen/small_margin"
+        android:layout_toEndOf="@+id/green_button_stats"
+        android:layout_toRightOf="@id/green_button_stats"
+        android:background="@color/basic_orange"
+        android:gravity="center"
+        tools:text="30%" />
+
+    <TextView
+        android:id="@+id/red_button_stats"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_margin="@dimen/small_margin"
+        android:layout_toEndOf="@id/orange_button_stats"
+        android:layout_toRightOf="@id/orange_button_stats"
+        android:background="@color/basic_red"
+        android:gravity="center"
+        tools:text="10%" />
+</RelativeLayout>

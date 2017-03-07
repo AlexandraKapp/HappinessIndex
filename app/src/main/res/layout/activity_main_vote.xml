@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="14dp"
-        android:id="@+id/spinner"
+        android:id="@+id/drop_down_menu"
         tools:text="#Code"/>
 
     <View

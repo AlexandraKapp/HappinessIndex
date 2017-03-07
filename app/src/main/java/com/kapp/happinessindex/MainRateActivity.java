@@ -8,6 +8,6 @@ public class MainRateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_rate);
+        setContentView(R.layout.activity_main_vote);
     }
 }

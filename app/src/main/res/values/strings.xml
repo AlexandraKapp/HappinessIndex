@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HappinessIndex</string>
+    <string name="vote_button_text">Vote</string>
 </resources>

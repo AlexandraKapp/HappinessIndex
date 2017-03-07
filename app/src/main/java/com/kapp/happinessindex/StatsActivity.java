@@ -1,5 +1,6 @@
 package com.kapp.happinessindex;
 
+import android.database.Cursor;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -38,7 +39,11 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
 
         //TODO: pack and unpack bundle and set Hashcode, Teamname and stats
 
-        mHashCode.setText("#HashCode");
+        if (getIntent().getExtras() != null) {
+            String hashCode = getIntent().getStringExtra(MainVoteActivity.SELECTED_HASHCODE_KEY);
+            mHashCode.setText(hashCode);
+            }
+
         mAtTeam.setText("@exampleTeam");
 
         mViewPager.setAdapter(new TabFragmentAdapter(getSupportFragmentManager(), StatsActivity.this));

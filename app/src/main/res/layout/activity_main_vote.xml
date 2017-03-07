@@ -18,6 +18,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="14dp"
         android:id="@+id/drop_down_menu"
+        android:elevation="@dimen/small_elevation"
         tools:text="#Code"/>
 
     <View
@@ -38,8 +39,8 @@
         android:layout_height="100dp"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/vote_button_text"
-        android:layout_gravity="center_horizontal"/>
+        android:onClick="vote"/>
 </LinearLayout>

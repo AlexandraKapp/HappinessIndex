@@ -3,6 +3,7 @@
     <string name="vote_button_text">Vote</string>
     <string name="example_text_teamA">\@teamA</string>
     <string name="example_text_code">#Code</string>
+    <string name="menu_title_new_vote">New Vote</string>
 
     <string-array name="hashcode_options">
         <item>Code</item>

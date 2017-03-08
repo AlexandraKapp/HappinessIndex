@@ -167,6 +167,5 @@ public class TabFragment extends Fragment {
 
     public void setData(HashtagResult hashTag) {
         mHashTag = hashTag;
-        Log.e("DEBUG", "enter setData in TabFragment.");
     }
 }

@@ -95,10 +95,10 @@ public class NetworkUtils {
         try {
             URL url = new URL(urlString);
 
-            jsonObjectVote.accumulate("team",vote.getTeamName());
-            jsonObjectVote.accumulate("hashTag",vote.getHashtag());
-            jsonObjectVote.accumulate("vote",vote.getVote());
-            jsonObjectVote.accumulate("date",vote.getDate());
+            jsonObjectVote.accumulate("team", vote.getTeamName());
+            jsonObjectVote.accumulate("hashTag", vote.getHashtag());
+            jsonObjectVote.accumulate("vote", vote.getVote());
+            jsonObjectVote.accumulate("date", vote.getDate());
 
             client = (HttpURLConnection) url.openConnection();
             client.setDoOutput(true);
@@ -121,15 +121,15 @@ public class NetworkUtils {
             while ((line = reader.readLine()) != null) {
                 result.append(line);
             }
-            Log.d("doInBackground(Resp)", result.toString());
             response = new JSONObject(result.toString());
+
+            client.disconnect();
+
         } catch (JSONException e) {
             e.printStackTrace();
 
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            client.disconnect();
         }
 
         return response.toString();

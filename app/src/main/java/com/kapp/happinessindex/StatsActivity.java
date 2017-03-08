@@ -82,7 +82,7 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
         }
 
         String hashtag = getIntent().getStringExtra(MainVoteActivity.SELECTED_HASHCODE_KEY);
-        mHashCode.setText(hashtag);
+        mHashCode.setText("#" + hashtag);
 
         Bundle bundle = new Bundle();
         bundle.putString(HASHTAG_KEY, hashtag);
@@ -158,7 +158,7 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
         //Loading Indicatior set Invisible
 
         setNewResults(data);
-        mAtTeam.setText(mTeam.getTeamName());
+        mAtTeam.setText("@" + mTeam.getTeamName());
 
         //else: error message
     }

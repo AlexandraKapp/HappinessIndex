@@ -26,7 +26,6 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Log.e("DEBUG", "getItem in FragmentAdapter entered.");
         currentTabs[position] = TabFragment.newInstance(position + 1);
         return currentTabs[position];
     }
@@ -48,9 +47,6 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
 
 
     public void setTabData(HashtagResult hashTag) {
-        Log.e("DEBUG", "enter setTabData");
-        Log.e("DEBUG", "current Tag " + currentTabs);
-        Log.e("DEBUG", "hashtag set Data to " + hashTag);
         for (TabFragment tab : currentTabs) {
             tab.setData(hashTag);
         }

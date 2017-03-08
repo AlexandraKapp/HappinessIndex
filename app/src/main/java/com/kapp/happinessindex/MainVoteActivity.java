@@ -80,7 +80,7 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
 
     public void vote(View view) {
 
-        //TODO: check if already voted
+        //TODO: (check if already voted)
 
         //TODO: add vote to database
 
@@ -100,8 +100,6 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
     if no value is selected -1 is returned
      */
     private int getSelectedValue() {
-
-        //TODO: fix bug nullpointerexception
 
         int selectedValueButton = mRadioGroup.getCheckedRadioButtonId();
 

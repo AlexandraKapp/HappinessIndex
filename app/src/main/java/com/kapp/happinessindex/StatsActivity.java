@@ -18,9 +18,11 @@ import android.widget.TextView;
 import com.kapp.happinessindex.data.HashtagResult;
 import com.kapp.happinessindex.data.Team;
 import com.kapp.happinessindex.utilities.HappinessIndexUtils;
+import com.kapp.happinessindex.utilities.NetworkUtils;
 
 import org.json.JSONException;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -118,11 +120,12 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
 
             @Override
             public ArrayList<Team> loadInBackground() {
-                //read URL
-                //make json request according to args: date, hashtag, team
 
+                //TODO: add real server request
+                //URL happinessIndexRequestUrl = NetworkUtils.buildURL(args.getString(CURRENT_TEAM), args.getString(CURRENT_HASHTAG));
                 String jsonString = "{\"results\": [{\"team\": \"Team A\",\"tags\": [{\"hashTag\":\"#Code\",\"green\": 28,\"orange\": 21,\"red\": 45,\"total_votes\": 94,\"date\": 1488957464291}]}],\"total_team_amount\": 2}";
                 try {
+                    //String jsonAsString = NetworkUtils.getResponseFromHttpUrl(happinessIndexRequestUrl);
                     teams = HappinessIndexUtils.getTeamObjectsFromJson(StatsActivity.this, jsonString);
 
                 } catch (JSONException e) {

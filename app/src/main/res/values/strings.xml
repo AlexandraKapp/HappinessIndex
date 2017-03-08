@@ -1,4 +1,5 @@
-<resources>
+    <resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+
     <string name="app_name">HappinessIndex</string>
     <string name="vote_button_text">Vote</string>
     <string name="example_text_teamA">\@teamA</string>
@@ -10,4 +11,6 @@
         <item>Support</item>
         <item>Team</item>
     </string-array>
+
+    <string  name="amountInPercentage"><xliff:g id="percentage">%1d</xliff:g> %%</string>
 </resources>

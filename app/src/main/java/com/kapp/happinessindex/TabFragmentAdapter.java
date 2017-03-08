@@ -4,6 +4,11 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
+
+import com.kapp.happinessindex.data.HashtagResult;
+
+import static android.R.id.tabs;
 
 
 public class TabFragmentAdapter extends FragmentPagerAdapter {
@@ -12,6 +17,8 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
     private String tabTitles[] = new String[]{"Today", "Monthly Stats"};
     private Context context;
 
+    TabFragment[] currentTabs = new TabFragment[PAGE_COUNT];
+
     public TabFragmentAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
@@ -19,7 +26,14 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return TabFragment.newInstance(position + 1);
+        Log.e("DEBUG", "getItem in FragmentAdapter entered.");
+        currentTabs[position] = TabFragment.newInstance(position + 1);
+        return currentTabs[position];
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     @Override
@@ -31,4 +45,15 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return tabTitles[position];
     }
+
+
+    public void setTabData(HashtagResult hashTag) {
+        Log.e("DEBUG", "enter setTabData");
+        Log.e("DEBUG", "current Tag " + currentTabs);
+        Log.e("DEBUG", "hashtag set Data to " + hashTag);
+        for (TabFragment tab : currentTabs) {
+            tab.setData(hashTag);
+        }
+    }
+
 }

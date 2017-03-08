@@ -3,13 +3,16 @@ package com.kapp.happinessindex;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
+import com.kapp.happinessindex.data.HashtagResult;
 
 
 /**
@@ -26,11 +29,11 @@ public class TabFragment extends Fragment {
     private static final String TAB_TYPE = "tab type";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private final int TAB_BUTTONS_KEY = 1;
     private final int TAB_GRAPH_KEY = 2;
 
     private int mTabType;
+    private HashtagResult mHashTag;
 
     private OnFragmentInteractionListener mListener;
 
@@ -45,8 +48,10 @@ public class TabFragment extends Fragment {
      * @param tabType the type of Tab to be inflated
      * @return A new instance of fragment TabFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static TabFragment newInstance(int tabType) {
+
+        Log.e("DEBUG", "newInstance in TabFragment called");
+
         TabFragment fragment = new TabFragment();
         Bundle args = new Bundle();
         args.putInt(TAB_TYPE, tabType);
@@ -56,6 +61,8 @@ public class TabFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        Log.e("DEBUG", "onCreate in TabFragment called");
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mTabType = getArguments().getInt(TAB_TYPE);
@@ -65,8 +72,11 @@ public class TabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         View view;
+
         if (mTabType == TAB_BUTTONS_KEY) {
             view = inflater.inflate(R.layout.tab_colorfields_fragment, container, false);
             TextView greenField = (TextView) view.findViewById(R.id.green_button);
@@ -74,22 +84,29 @@ public class TabFragment extends Fragment {
             TextView redField = (TextView) view.findViewById(R.id.red_button);
             TextView totalVotes = (TextView) view.findViewById(R.id.total_votes);
 
-           //TODO: exchange example test texts
-            totalVotes.setText("Total: 25 votes");
-            greenField.setText("60%");
-            orangeField.setText("25%");
-            redField.setText("15%");
+            if (mHashTag == null) {
+                return view;
+            }
+            int totalAmount = mHashTag.getTotalAmount();
+            totalVotes.setText("Total: " + totalAmount + " votes");
+            int greenAmountinPercentage = (int) (((double) mHashTag.getGreenAmount() / (double) totalAmount) * 100);
+            greenField.setText(getResources().getString(R.string.amountInPercentage, greenAmountinPercentage));
+            int orangeAmountinPercentage = (int) (((double) mHashTag.getOrangeAmount() / (double)totalAmount) * 100);
+            orangeField.setText(getResources().getString(R.string.amountInPercentage, orangeAmountinPercentage));
+            int redAmountinPercentage = (int) (((double) mHashTag.getRedAmount() / (double) totalAmount) * 100);
+            redField.setText(getResources().getString(R.string.amountInPercentage, redAmountinPercentage));
 
-            setButtonSizeAccordingtoPercentage(greenField, 60);
-            setButtonSizeAccordingtoPercentage(orangeField, 25);
-            setButtonSizeAccordingtoPercentage(redField, 15);
+            setButtonSizeAccordingtoPercentage(greenField, greenAmountinPercentage);
+            setButtonSizeAccordingtoPercentage(orangeField, orangeAmountinPercentage);
+            setButtonSizeAccordingtoPercentage(redField, redAmountinPercentage);
 
-            //TODO: set button size and percentage text on Buttons
+            //set button size and percentage text on Buttons
 
         } else if (mTabType == TAB_GRAPH_KEY) {
             view = inflater.inflate(R.layout.tab_graph_fragment, container, false);
             GraphView statsGraph = (GraphView) view.findViewById(R.id.stats_graph);
-            //TODO set Graphparameters
+
+            //TODO: set Graphparameters
 
         } else {
             throw new RuntimeException("Tab with key " + mTabType + " is not implemented.");
@@ -102,7 +119,7 @@ public class TabFragment extends Fragment {
      */
     private void setButtonSizeAccordingtoPercentage(TextView textViewToResize, int percentage) {
         int hundredPercent = (int) (getResources().getDimension(R.dimen.button_size) * 3);
-        int newHeight = (int) ((double) hundredPercent *((double)percentage/100));
+        int newHeight = (int) ((double) hundredPercent * ((double) percentage / 100));
 
         ViewGroup.LayoutParams params = textViewToResize.getLayoutParams();
         params.height = newHeight;
@@ -140,11 +157,16 @@ public class TabFragment extends Fragment {
      * activity.
      * <p>
      * See the Android Training lesson <a href=
+     * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void setData(HashtagResult hashTag) {
+        mHashTag = hashTag;
+        Log.e("DEBUG", "enter setData in TabFragment.");
     }
 }

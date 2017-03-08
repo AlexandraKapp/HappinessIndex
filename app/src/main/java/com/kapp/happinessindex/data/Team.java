@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Team {
     private String teamName;
-    private ArrayList<HashtagResult> hashTags;
+    private ArrayList<HashtagResult> hashTags = new ArrayList<HashtagResult>();
 
     public Team(String teamName) {
         this.teamName = teamName;
@@ -15,11 +15,19 @@ public class Team {
         this.hashTags = hashTags;
     }
 
-    /*
-    Adds a new Hashtag to the Team.
-    If the Hashtag already exists, nothing is done.
+    public String getTeamName() {
+        return teamName;
+    }
 
-     */
+    public ArrayList<HashtagResult> getHashTags() {
+        return hashTags;
+    }
+
+    /*
+        Adds a new Hashtag to the Team.
+        If the Hashtag already exists, nothing is done.
+
+         */
     public void addHashTag(HashtagResult hashTag) {
         for (HashtagResult ht : hashTags) {
             if (hashTag.getHashtag().equals(hashTag.getHashtag())) {

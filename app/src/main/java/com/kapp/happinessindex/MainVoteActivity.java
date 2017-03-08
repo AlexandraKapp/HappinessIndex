@@ -1,7 +1,11 @@
 package com.kapp.happinessindex;
 
 import android.content.Intent;
+import android.graphics.Movie;
 import android.provider.MediaStore;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,13 +17,22 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.kapp.happinessindex.data.Team;
+import com.kapp.happinessindex.utilities.HappinessIndexUtils;
+
+import org.json.JSONException;
+
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.attr.data;
 import static android.R.attr.id;
+import static android.os.Build.VERSION_CODES.M;
 import static com.kapp.happinessindex.R.id.vote_radio_button_group;
 
-public class MainVoteActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener {
+public class MainVoteActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener{
 
     public static String SELECTED_HASHCODE_KEY = "hashcode key";
 
@@ -48,7 +61,6 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
     final int GREEN_SELECTED = 1;
     final int ORANGE_SELECTED = 2;
     final int RED_SELECTED = 3;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,4 +167,5 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
                 redButton.setBackground(getDrawable(R.color.basic_red));
         }
     }
+
 }

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,13 +68,14 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
 
     public void vote(View view) {
 
-        //TODO: check if a button is selected
         //TODO: check if already voted
-        //TODO: check if hashtag is selected
 
         //TODO: add vote to database
 
-        //getSelectedValue();
+        if (getSelectedValue() == -1) {
+            Toast.makeText(this, "Choose green, orange or red before the vote can be submitted.", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         Intent nextActivity = new Intent(MainVoteActivity.this, StatsActivity.class);
         nextActivity.putExtra(SELECTED_HASHCODE_KEY, selectedHashCode);

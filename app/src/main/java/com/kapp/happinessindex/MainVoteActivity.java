@@ -1,14 +1,12 @@
 package com.kapp.happinessindex;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Movie;
-import android.provider.MediaStore;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,22 +15,17 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.kapp.happinessindex.data.Team;
-import com.kapp.happinessindex.utilities.HappinessIndexUtils;
+import com.kapp.happinessindex.data.Vote;
+import com.kapp.happinessindex.utilities.NetworkUtils;
 
-import org.json.JSONException;
-
-import java.util.ArrayList;
+import java.net.HttpURLConnection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.R.attr.data;
-import static android.R.attr.id;
-import static android.os.Build.VERSION_CODES.M;
-import static com.kapp.happinessindex.R.id.vote_radio_button_group;
+import static com.kapp.happinessindex.utilities.NetworkUtils.POST;
 
-public class MainVoteActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener{
+public class MainVoteActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener {
 
     public static String SELECTED_HASHCODE_KEY = "hashcode key";
 
@@ -57,7 +50,7 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
     @BindView(R.id.red_button)
     Button redButton;
 
-    String selectedHashCode;
+    String selectedHashTag;
     final int GREEN_SELECTED = 1;
     final int ORANGE_SELECTED = 2;
     final int RED_SELECTED = 3;
@@ -82,15 +75,21 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
 
         //TODO: (check if already voted)
 
-        //TODO: add vote to database
-
         if (getSelectedValue() == -1) {
             Toast.makeText(this, "Choose green, orange or red before the vote can be submitted.", Toast.LENGTH_LONG).show();
             return;
         }
 
+        if (!isConnected()){
+            Toast.makeText(this, "Please check your internet connection and try again.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        //TODO: set right Team name
+        new HttpAsyncTask().execute(new Vote(selectedHashTag, "teamName", getSelectedValue(), System.currentTimeMillis()));
+
         Intent nextActivity = new Intent(MainVoteActivity.this, StatsActivity.class);
-        nextActivity.putExtra(SELECTED_HASHCODE_KEY, selectedHashCode);
+        nextActivity.putExtra(SELECTED_HASHCODE_KEY, selectedHashTag);
 
         startActivity(nextActivity);
     }
@@ -116,7 +115,7 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selectedHashCode = (String) parent.getItemAtPosition(position);
+        selectedHashTag = (String) parent.getItemAtPosition(position);
     }
 
     @Override
@@ -164,6 +163,29 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
                 orangeButton.setBackground(getDrawable(R.color.basic_orange));
                 redButton.setBackground(getDrawable(R.color.basic_red));
         }
+
     }
+
+    private class HttpAsyncTask extends AsyncTask<Vote, Void, String> {
+        @Override
+        protected String doInBackground(Vote... votes) {
+            return POST(NetworkUtils.HAPPINESS_INDEX_POST_SERVER, votes[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getBaseContext(), "Response from Server: " + result, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected())
+            return true;
+        else
+            return false;
+    }
+
 
 }

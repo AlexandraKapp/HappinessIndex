@@ -2,6 +2,7 @@ package com.kapp.happinessindex;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kapp.happinessindex.data.Vote;
@@ -50,6 +52,10 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
     @BindView(R.id.red_button)
     Button redButton;
 
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.version_footer)
+    TextView version;
+
     String selectedHashTag;
     final int GREEN_SELECTED = 1;
     final int ORANGE_SELECTED = 2;
@@ -61,6 +67,8 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_main_vote);
 
         ButterKnife.bind(this);
+
+        version.setText(getResources().getString(R.string.version_name, BuildConfig.VERSION_NAME));
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.hashcode_options, R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);

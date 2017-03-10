@@ -6,6 +6,8 @@
     <string name="example_text_code">#Code</string>
     <string name="menu_title_new_vote">New Vote</string>
 
+        <string name="version_name">Version: %1s</string>
+
     <string-array name="hashcode_options">
         <item>Code</item>
         <item>Support</item>

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_rate"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context="com.kapp.happinessindex.MainVoteActivity">
 
 
@@ -19,26 +17,35 @@
         android:layout_height="@dimen/drop_down_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
-        android:elevation="@dimen/small_elevation"
         android:background="@android:drawable/btn_dropdown"
+        android:elevation="@dimen/small_elevation"
         android:textAllCaps="true"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-        tools:text="#Code"/>
+        tools:text="#Code" />
 
-    <include android:id="@+id/colored_buttons"
+    <include
+        android:id="@+id/colored_buttons"
         layout="@layout/buttons_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="@dimen/large_button_height"
-        android:text="@string/vote_button_text"
+        android:layout_above="@+id/version_footer"
+        android:layout_marginBottom="@dimen/small_margin"
         android:onClick="vote"
-        android:layout_alignParentBottom="true"
+        android:text="@string/vote_button_text"
         android:textAllCaps="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
+
+    <include
+        android:id="@+id/version_footer"
+        layout="@layout/version_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

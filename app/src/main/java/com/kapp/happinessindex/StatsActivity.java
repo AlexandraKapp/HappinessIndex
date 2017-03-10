@@ -134,12 +134,15 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
 
                 //TODO: add real server request
                 //URL happinessIndexRequestUrl = NetworkUtils.buildURL(args.getString(CURRENT_TEAM), args.getString(CURRENT_HASHTAG));
-                String jsonString = "{\"results\": [{\"team\": \"Team A\",\"tags\": [{\"hashTag\":\"#Code\",\"green\": 28,\"orange\": 21,\"red\": 45,\"total_votes\": 94,\"date\": 1488957464291}]}],\"total_team_amount\": 2}";
+                //String jsonString = "{\"results\": [{\"team\": \"Team A\",\"tags\": [{\"hashTag\":\"#Code\",\"green\": 28,\"orange\": 21,\"red\": 45,\"total_votes\": 94,\"date\": 1488957464291}]}],\"total_team_amount\": 2}";
                 try {
-                    //String jsonAsString = NetworkUtils.getResponseFromHttpUrl(happinessIndexRequestUrl);
+                    URL happinessIndexRequestUrl = new URL (NetworkUtils.HAPPINESS_INDEX_SERVER);
+                    String jsonString = NetworkUtils.getResponseFromHttpUrl(happinessIndexRequestUrl);
                     teams = HappinessIndexUtils.getTeamObjectsFromJson(StatsActivity.this, jsonString);
 
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return teams;

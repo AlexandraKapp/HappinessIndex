@@ -34,7 +34,7 @@ import java.util.Scanner;
 public class NetworkUtils {
 
     //TODO: add server url
-    final static String HAPPINESS_INDEX_SERVER = "";
+    public final static String HAPPINESS_INDEX_SERVER = "http://app.emooti.org/Emooti/services/result";
     public final static String HAPPINESS_INDEX_POST_SERVER = "";
 
     final static String PARAM_TEAM = "team";

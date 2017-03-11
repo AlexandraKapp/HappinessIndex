@@ -35,7 +35,7 @@ public class NetworkUtils {
 
     //TODO: add server url
     public final static String HAPPINESS_INDEX_SERVER = "http://app.emooti.org/Emooti/services/result";
-    public final static String HAPPINESS_INDEX_POST_SERVER = "";
+    public final static String HAPPINESS_INDEX_POST_SERVER = "http://app.emooti.org/Emooti/services/query";
 
     final static String PARAM_TEAM = "team";
     final static String PARAM_HASHTAG = "hashtag";
@@ -98,7 +98,7 @@ public class NetworkUtils {
             jsonObjectVote.accumulate("team", vote.getTeamName());
             jsonObjectVote.accumulate("hashTag", vote.getHashtag());
             jsonObjectVote.accumulate("vote", vote.getVote());
-            jsonObjectVote.accumulate("date", vote.getDate());
+            jsonObjectVote.accumulate("currentmills", vote.getDate());
 
             client = (HttpURLConnection) url.openConnection();
             client.setDoOutput(true);

@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -183,6 +184,7 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
         @Override
         protected void onPostExecute(String result) {
             Toast.makeText(getBaseContext(), "Response from Server: " + result, Toast.LENGTH_LONG).show();
+            Log.e("RESPONSE FROM SERVER", result);
         }
     }
 

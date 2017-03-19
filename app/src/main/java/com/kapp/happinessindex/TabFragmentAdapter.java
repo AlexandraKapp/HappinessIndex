@@ -26,6 +26,7 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        Log.d("DEBUG", "getItem called");
         currentTabs[position] = TabFragment.newInstance(position + 1);
         return currentTabs[position];
     }
@@ -47,9 +48,24 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
 
 
     public void setTabData(HashtagResult hashTag) {
+        Log.d("DEBUG", "setTab Data called");
+        int counter = 0;
         for (TabFragment tab : currentTabs) {
+            counter++;
+            Log.d("DEBUG", String.valueOf(counter));
+            Log.d("DEBUG", "hashtag " + hashTag);
+            Log.d("Debug", "tab " + tab);
             tab.setData(hashTag);
         }
+    }
+
+    public boolean isCurrentTabEmpty() {
+        for (int i = 0; i < PAGE_COUNT; i++) {
+            if (currentTabs[i] == null) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -50,8 +50,6 @@ public class TabFragment extends Fragment {
      */
     public static TabFragment newInstance(int tabType) {
 
-        Log.e("DEBUG", "newInstance in TabFragment called");
-
         TabFragment fragment = new TabFragment();
         Bundle args = new Bundle();
         args.putInt(TAB_TYPE, tabType);
@@ -62,7 +60,6 @@ public class TabFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        Log.e("DEBUG", "onCreate in TabFragment called");
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mTabType = getArguments().getInt(TAB_TYPE);

@@ -1,12 +1,7 @@
 package com.kapp.happinessindex;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -17,22 +12,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.kapp.happinessindex.data.HashtagResult;
 import com.kapp.happinessindex.data.Team;
 import com.kapp.happinessindex.utilities.HappinessIndexUtils;
 import com.kapp.happinessindex.utilities.NetworkUtils;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -45,7 +32,7 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.hashtag_as_title)
-    TextView mHashCode;
+    TextView mHashTagDisplay;
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.team_name)
@@ -66,11 +53,15 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
     final int loaderId = 1;
 
     private Team mTeam;
+    private String mHashTag;
     TabFragmentAdapter mTabFragmentAdapter;
 
 
+    //TODO: keep data when orientation changes
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("DEBUG", "on create stasActivity called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
@@ -81,12 +72,14 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
             return;
         }
 
-        String hashtag = getIntent().getStringExtra(MainVoteActivity.SELECTED_HASHCODE_KEY);
-        mHashCode.setText("#" + hashtag);
+        mHashTag = getIntent().getStringExtra(MainVoteActivity.SELECTED_HASHCODE_KEY);
+        Log.e("DEBUG", "getIntent extra " + mHashTag);
+        mHashTagDisplay.setText("#" + mHashTag);
 
         Bundle bundle = new Bundle();
-        bundle.putString(HASHTAG_KEY, hashtag);
+        bundle.putString(HASHTAG_KEY, mHashTag);
 
+        Log.d("DEBUG", String.valueOf((mTabFragmentAdapter == null)));
         mTabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), StatsActivity.this);
         getSupportLoaderManager().initLoader(loaderId, bundle, callbacks);
 
@@ -136,7 +129,7 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
                 //URL happinessIndexRequestUrl = NetworkUtils.buildURL(args.getString(CURRENT_TEAM), args.getString(CURRENT_HASHTAG));
                 //String jsonString = "{\"results\": [{\"team\": \"Team A\",\"tags\": [{\"hashTag\":\"#Code\",\"green\": 28,\"orange\": 21,\"red\": 45,\"total_votes\": 94,\"date\": 1488957464291}]}],\"total_team_amount\": 2}";
                 try {
-                    URL happinessIndexRequestUrl = new URL (NetworkUtils.HAPPINESS_INDEX_SERVER);
+                    URL happinessIndexRequestUrl = new URL(NetworkUtils.HAPPINESS_INDEX_SERVER);
                     String jsonString = NetworkUtils.getResponseFromHttpUrl(happinessIndexRequestUrl);
                     teams = HappinessIndexUtils.getTeamObjectsFromJson(StatsActivity.this, jsonString);
 
@@ -170,8 +163,11 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
         //either choose right Team here or adapt Json Result
         //e.g. check if only 1 instance in Array
         mTeam = data.get(0);
-        mTabFragmentAdapter.setTabData(mTeam.getHashTags().get(0));
-        mViewPager.getAdapter().notifyDataSetChanged();
+
+        if (!mTabFragmentAdapter.isCurrentTabEmpty()) {
+            mTabFragmentAdapter.setTabData(mTeam.getHashTags().get(0));
+            mViewPager.getAdapter().notifyDataSetChanged();
+        }
     }
 
 

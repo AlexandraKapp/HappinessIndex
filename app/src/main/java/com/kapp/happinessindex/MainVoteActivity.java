@@ -35,6 +35,7 @@ import java.net.HttpURLConnection;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.attr.permission;
 import static android.os.Build.VERSION_CODES.M;
 import static com.kapp.happinessindex.utilities.NetworkUtils.POST;
 
@@ -72,6 +73,7 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
     final int GREEN_SELECTED = 1;
     final int ORANGE_SELECTED = 2;
     final int RED_SELECTED = 3;
+    final int LOCATION_REQUEST_CODE = 1;
 
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
@@ -229,21 +231,31 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        Log.d("location", "on Connected entered");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_REQUEST_CODE);
             return;
         }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+    }
 
-        Log.d("location", "lastlocation called");
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        }
+            /*for (int i = 0; i < permissions.length; i++) {
+            if (permissions[i].equals(android.Manifest.permission.ACCESS_FINE_LOCATION))
+            {
+                if (requestCode == LOCATION_REQUEST_CODE && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                       mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                   }
+
+                }
+            }
+        }*/
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -253,7 +265,7 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-    Log.d("location", "onConnectionFailed");
+        Log.d("location", "onConnectionFailed");
         Log.d("location", String.valueOf(connectionResult));
     }
 

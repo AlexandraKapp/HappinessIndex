@@ -61,7 +61,6 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("DEBUG", "on create stasActivity called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
@@ -73,13 +72,11 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
         }
 
         mHashTag = getIntent().getStringExtra(MainVoteActivity.SELECTED_HASHCODE_KEY);
-        Log.e("DEBUG", "getIntent extra " + mHashTag);
         mHashTagDisplay.setText("#" + mHashTag);
 
         Bundle bundle = new Bundle();
         bundle.putString(HASHTAG_KEY, mHashTag);
 
-        Log.d("DEBUG", String.valueOf((mTabFragmentAdapter == null)));
         mTabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), StatsActivity.this);
         getSupportLoaderManager().initLoader(loaderId, bundle, callbacks);
 

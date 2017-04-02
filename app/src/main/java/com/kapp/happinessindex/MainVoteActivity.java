@@ -1,11 +1,17 @@
 package com.kapp.happinessindex;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +24,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.kapp.happinessindex.data.Vote;
 import com.kapp.happinessindex.utilities.NetworkUtils;
 
@@ -26,9 +35,11 @@ import java.net.HttpURLConnection;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.os.Build.VERSION_CODES.M;
 import static com.kapp.happinessindex.utilities.NetworkUtils.POST;
 
-public class MainVoteActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener {
+public class MainVoteActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,
+        RadioGroup.OnCheckedChangeListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static String SELECTED_HASHCODE_KEY = "hashcode key";
 
@@ -62,6 +73,9 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
     final int ORANGE_SELECTED = 2;
     final int RED_SELECTED = 3;
 
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +91,31 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
         mDropDownMenu.setOnItemSelectedListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
 
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
 
+            Log.d("Location", "ApiClient created");
+            Log.d("Location", "Api Client " + mGoogleApiClient);
+        }
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        Log.d("Location", " on Start called");
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     public void vote(View view) {
@@ -89,13 +127,25 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
             return;
         }
 
-        if (!isConnected()){
+        if (!isConnected()) {
             Toast.makeText(this, "Please check your internet connection and try again.", Toast.LENGTH_LONG).show();
             return;
         }
 
         //TODO: set right Team name
-        new HttpAsyncTask().execute(new Vote(selectedHashTag, "teamName", getSelectedValue(), System.currentTimeMillis()));
+
+
+        // if no Location available then -1 is sent
+        double latitude = -1;
+        double longitude = -1;
+
+        if (mLastLocation != null) {
+            latitude = mLastLocation.getLatitude();
+            longitude = mLastLocation.getLongitude();
+        }
+
+        Vote newVote = new Vote(selectedHashTag, "teamName", getSelectedValue(), System.currentTimeMillis(), latitude, longitude);
+        new HttpAsyncTask().execute(newVote);
 
         Intent nextActivity = new Intent(MainVoteActivity.this, StatsActivity.class);
         nextActivity.putExtra(SELECTED_HASHCODE_KEY, selectedHashTag);
@@ -137,6 +187,7 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
         int selectedValue = getSelectedValue();
 
         switch (selectedValue) {
+            //TODO: make adaptable for API 16
             case GREEN_SELECTED:
                 greenButton.setBackground(getDrawable(R.drawable.gradient_green));
                 orangeButton.setBackground(getDrawable(R.color.basic_orange));
@@ -173,6 +224,37 @@ public class MainVoteActivity extends AppCompatActivity implements AdapterView.O
                 redButton.setBackground(getDrawable(R.color.basic_red));
         }
 
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+        Log.d("location", "on Connected entered");
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        Log.d("location", "lastlocation called");
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    Log.d("location", "onConnectionFailed");
+        Log.d("location", String.valueOf(connectionResult));
     }
 
     private class HttpAsyncTask extends AsyncTask<Vote, Void, String> {

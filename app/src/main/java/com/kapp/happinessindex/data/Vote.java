@@ -7,12 +7,16 @@ public class Vote {
     private String TeamName;
     private int vote;
     private long date;
+    private double latitude;
+    private double longitude;
 
-    public Vote(String hashtag, String teamName, int vote, long date) {
+    public Vote(String hashtag, String teamName, int vote, long date, double latitude, double longitude) {
         this.hashtag = hashtag;
         TeamName = teamName;
         this.vote = vote;
         this.date = date;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getHashtag() {
@@ -29,5 +33,13 @@ public class Vote {
 
     public long getDate() {
         return date;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 }

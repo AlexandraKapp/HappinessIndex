@@ -99,6 +99,8 @@ public class NetworkUtils {
             jsonObjectVote.accumulate("hashTag", vote.getHashtag());
             jsonObjectVote.accumulate("vote", vote.getVote());
             jsonObjectVote.accumulate("currentmills", vote.getDate());
+            jsonObjectVote.accumulate("longitude", vote.getLongitude());
+            jsonObjectVote.accumulate("latitude", vote.getLatitude());
 
             client = (HttpURLConnection) url.openConnection();
             client.setDoOutput(true);

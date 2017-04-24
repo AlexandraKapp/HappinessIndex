@@ -124,7 +124,7 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
 
                 try {
                     //URL happinessIndexRequestUrl = new URL(NetworkUtils.HAPPINESS_INDEX_SERVER);
-                    URL happinessIndexRequestUrl = NetworkUtils.buildURL("teamName", "Code");
+                    URL happinessIndexRequestUrl = NetworkUtils.buildURL("teamName", mHashTag);
                     Log.d("REQUEST URL", String.valueOf(happinessIndexRequestUrl));
                     String jsonString = NetworkUtils.getResponseFromHttpUrl(happinessIndexRequestUrl);
 

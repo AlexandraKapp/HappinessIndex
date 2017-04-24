@@ -122,11 +122,10 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
             @Override
             public ArrayList<Team> loadInBackground() {
 
-                //TODO: add real server request
-                //URL happinessIndexRequestUrl = NetworkUtils.buildURL(args.getString(CURRENT_TEAM), args.getString(CURRENT_HASHTAG));
-                //String jsonString = "{\"results\": [{\"team\": \"Team A\",\"tags\": [{\"hashTag\":\"#Code\",\"green\": 28,\"orange\": 21,\"red\": 45,\"total_votes\": 94,\"date\": 1488957464291}]}],\"total_team_amount\": 2}";
                 try {
-                    URL happinessIndexRequestUrl = new URL(NetworkUtils.HAPPINESS_INDEX_SERVER);
+                    //URL happinessIndexRequestUrl = new URL(NetworkUtils.HAPPINESS_INDEX_SERVER);
+                    URL happinessIndexRequestUrl = NetworkUtils.buildURL("teamName", "Code");
+                    Log.d("REQUEST URL", String.valueOf(happinessIndexRequestUrl));
                     String jsonString = NetworkUtils.getResponseFromHttpUrl(happinessIndexRequestUrl);
                     teams = HappinessIndexUtils.getTeamObjectsFromJson(StatsActivity.this, jsonString);
 

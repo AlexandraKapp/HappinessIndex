@@ -127,6 +127,8 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
                     URL happinessIndexRequestUrl = NetworkUtils.buildURL("teamName", "Code");
                     Log.d("REQUEST URL", String.valueOf(happinessIndexRequestUrl));
                     String jsonString = NetworkUtils.getResponseFromHttpUrl(happinessIndexRequestUrl);
+
+                    //TODO: catch if teams is null
                     teams = HappinessIndexUtils.getTeamObjectsFromJson(StatsActivity.this, jsonString);
 
                 } catch (JSONException e) {
@@ -158,7 +160,7 @@ public class StatsActivity extends AppCompatActivity implements TabFragment.OnFr
     private void setNewResults(ArrayList<Team> data) {
         //either choose right Team here or adapt Json Result
         //e.g. check if only 1 instance in Array
-        mTeam = data.get(0);
+            mTeam = data.get(0);
 
         if (!mTabFragmentAdapter.isCurrentTabEmpty()) {
             mTabFragmentAdapter.setTabData(mTeam.getHashTags().get(0));
